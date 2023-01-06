@@ -1,0 +1,21 @@
+class Robot():
+    name = ""
+    power = False
+    #__current_speed = 0
+    #__battery_level = 0
+    #__states = ['shutown', 'running']
+    
+    def __init__(self, name=None):
+        self.name = name
+        self.power = True
+
+    def __off__(self):
+        self.power = False
+
+r = Robot(name='Marie')
+
+print(r.name)
+print(r.power)
+
+r.__off__()
+print(r.power)
