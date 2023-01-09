@@ -3,27 +3,7 @@ from Exo1_file import Robot
 from Exo2_Human import Human
 
 class Cyborg(Robot, Human):   
-    __nuke = False
-    def __init__(self, name, sexe, nuke=False):   
-        Robot.__init__(self, name)
-        Human.__init__(self, sexe)
-        self.__nuke = nuke
-        self.name = name
-        self.sexe = sexe
-    def __del__(self):
-        if self.__nuke == True:
-            print("AUTODESTRUCTION COMPLETE")
-            print("CASUALTIES: "+ str(randint(1000,10000000)))
-        else:
-            print("NUKE PAYLOAD HASN'T BEEN FOUND, AUTODESTRUCTION CANCELED")
-    def charge(self):
-        Robot.chargeBattery(self)
-
-    def status(self):
-        print(Robot.__str__(self))
-        print(Human.__str__(self))
-    def changePayloadStatus(self):
-        self.__nuke = not(self.__nuke)
+    pass
 # ---------------------------------------------
 # Main
 # ---------------------------------------------
