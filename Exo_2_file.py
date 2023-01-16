@@ -15,7 +15,7 @@ class Cyborg(Robot, Human):
         print("Le Cyborg est %s"%(cyborg.current_state))
         print("\n")
 
-######### Main  #########
+######### Main  #############
 
 cyborg = Cyborg('Deux Ex Machina', 'M')
 
