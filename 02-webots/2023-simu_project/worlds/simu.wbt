@@ -1,0 +1,68 @@
+#VRML_SIM R2023a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "../protos/CircleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/appearances/protos/MattePaint.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/toys/protos/RubberDuck.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023a/projects/objects/solids/protos/SolidBox.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.10137943391978001 -0.00799573487362539 -0.9948157008219841 3.098251483413643
+  position 39.30099612542834 0.38091116731753116 9.256078087605056
+}
+TexturedBackground {
+  texture "noon_stormy_empty"
+}
+TexturedBackgroundLight {
+  luminosity 1.5
+}
+RubberDuck {
+  translation 3.7187594927675742 3.733944479494878 2.178291189669854
+  rotation 0.023976133613411523 0.0065485757529549155 0.9996910828713836 0.716751342889118
+  name "duck1"
+  scale 7
+}
+RubberDuck {
+  translation -3.7373077138799826 -3.694816157567358 2.1782885269490637
+  rotation 0.005120743678446121 -0.008322104110216551 0.9999522591440845 -2.2165882347986887
+  name "duck3"
+  scale 7
+  bodyColor 0.878431 0.105882 0.141176
+}
+RubberDuck {
+  translation -3.7260990823077287 3.744012719724145 2.180440445493762
+  rotation 0.006507456996969268 -0.001952942562627161 0.9999769192430292 2.4027460088207353
+  name "duck4"
+  scale 7
+  bodyColor 0.878431 0.105882 0.141176
+}
+RubberDuck {
+  translation 3.730019668714534 -3.696195166701468 2.178286921664702
+  rotation 0.020257957573402853 -0.010755524839111297 -0.9997369323178922 0.7832077200980675
+  name "duck2"
+  scale 7
+  bodyColor 0.180392 0.760784 0.494118
+}
+CircleArena {
+  name "defeat arena"
+  radius 8
+  floorAppearance MattePaint {
+    baseColor 0.300008 0.0119936 0.0119936
+  }
+}
+SolidBox {
+  translation 0 0 2
+  rotation 0.707084957913509 0.707084957913509 0.007856499532372323 0
+  name "arena"
+  size 8 8 0.1
+  appearance PBRAppearance {
+    baseColor 0 0 0
+    baseColorMap ImageTexture {
+    }
+    roughness 0.5
+    metalness 0
+  }
+}

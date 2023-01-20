@@ -1,4 +1,4 @@
-######### Importation du temps #############
+######### Importation du temps ############
 import time
 
 ######### Classe du robot ##############
