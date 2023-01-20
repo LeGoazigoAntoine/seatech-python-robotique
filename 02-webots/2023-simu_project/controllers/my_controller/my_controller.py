@@ -1,5 +1,7 @@
 #####  Antoine Le Goazigo   #####
 
+import time
+
 # You may need to import some classes of the controller module. Ex:
 #  from controller import Robot, Motor, DistanceSensor
 from controller import Robot, Motor, DistanceSensor
@@ -76,7 +78,9 @@ timestep = int(robot.getBasicTimeStep())
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
 
-    robot.run()
+    robot.run(True)
+    time.sleep(100)
+    robot.run(False)
 
     # Read the sensors:
     # Enter here functions to read sensor data, like:
