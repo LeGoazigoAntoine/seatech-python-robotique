@@ -80,7 +80,6 @@ timestep = int(robot.getBasicTimeStep())
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
 
-    robot.goforward()
     robot.goback()
     # Read the sensors:
     # Enter here functions to read sensor data, like:
