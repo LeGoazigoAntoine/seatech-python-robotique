@@ -54,11 +54,10 @@ class smashBot(Robot):
         super().__init__()
         self.__motors=smashBotMotors()
 
-    def run(self):
-        if True:
+    def goforward(self):        
             self.__motors.goforward()
-        else:
-            self.__motors.goback()
+
+
             
     
 
@@ -78,8 +77,6 @@ timestep = int(robot.getBasicTimeStep())
 # - perform simulation steps until Webots is stopping the controller
 while robot.step(timestep) != -1:
 
-    robot.run(True)
-    time.sleep(100)
     robot.run(False)
 
     # Read the sensors:
