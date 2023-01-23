@@ -12,9 +12,6 @@ class smashBotMotor(Motor):
         super().__init__(name)
         self.setPosition(float('inf'))
         self.setVelocity(0)
-        
-
-
 
 class smashBotMotors():
 
@@ -52,40 +49,14 @@ class smashBotMotors():
 class smashBot(Robot):
     def __init__(self, speed=None):
         super().__init__()
-        self.__motors=smashBotMotors()
+        self.motors=smashBotMotors()
 
     def goforward(self):        
-            self.__motors.goforward()
-
-
-            
+            self.motors.goforward()
     
+    def goback(self):        
+            self.motors.goback()
 
-# create the Robot instance.
+
+
 robot = smashBot()
-
-# get the time step of the current world.
-timestep = int(robot.getBasicTimeStep())
-
-# You should insert a getDevice-like function in order to get the
-# instance of a device of the robot. Something like:
-#  motor = robot.getDevice('motorname')
-#  ds = robot.getDevice('dsname')
-#  ds.enable(timestep)
-
-# Main loop:
-# - perform simulation steps until Webots is stopping the controller
-while robot.step(timestep) != -1:
-
-    robot.run(False)
-
-    # Read the sensors:
-    # Enter here functions to read sensor data, like:
-    #  val = ds.getValue()
-
-    # Process sensor data here.
-
-    # Enter here functions to send actuator commands, like:
-    #  motor.setPosition(10.0)
-    pass
-
