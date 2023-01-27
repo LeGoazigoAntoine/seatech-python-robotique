@@ -84,4 +84,4 @@ destroyer = Smash()
 timestep = int(destroyer.getBasicTimeStep())
 
 while destroyer.step(timestep) != -1:
-    destroyer.run()
+    destroyer.run() 
