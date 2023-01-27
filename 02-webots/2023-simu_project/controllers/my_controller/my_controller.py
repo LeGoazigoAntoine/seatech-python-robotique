@@ -1,93 +1,87 @@
-#####  Antoine Le Goazigo   #####
+from controller import Robot, Motor, PositionSensor
 
-import time
+class Smash(Robot):
 
-# You may need to import some classes of the controller module. Ex:
-#  from controller import Robot, Motor, DistanceSensor
-from controller import Robot, Motor, DistanceSensor
+    __WHEEL_RADIUS =  0.1
+    __LX = 0.238  # lateral distance from robot's COM to wheel [m].
+    __LY = 0.285  # longitudinal distance from robot's COM to wheel [m].
+    __SPEED_INCREMENT = 0.05
+    __MAX_SPEED = 2.0
 
-class smashBotMotor(Motor):
+    def __init__(self):
+        Robot.__init__(self)
 
-    def __init__(self,name):
-        super().__init__(name)
-        self.setPosition(float('inf'))
-        self.setVelocity(0)
-        
+        self.__back_left_motor = self.getDevice('back_left_wheel_joint')
+        self.__back_right_motor = self.getDevice('back_right_wheel_joint')
+        self.__front_left_motor = self.getDevice('front_left_wheel_joint')
+        self.__front_right_motor = self.getDevice('front_right_wheel_joint')
 
+        self.__back_left_sensor = self.getDevice('back_left_wheel_joint_sensor')
+        self.__back_right_sensor = self.getDevice('back_right_wheel_joint_sensor')
+        self.__front_left_sensor = self.getDevice('front_left_wheel_joint_sensor')
+        self.__front_right_sensor = self.getDevice('front_right_wheel_joint_sensor')
+        # ds.enable(timestep)
 
+        self.__back_left_motor.setPosition(float('inf'))
+        self.__back_right_motor.setPosition(float('inf'))
+        self.__front_left_motor.setPosition(float('inf'))
+        self.__front_right_motor.setPosition(float('inf'))
 
-class smashBotMotors():
+        self.__back_left_motor.setVelocity(0)
+        self.__back_right_motor.setVelocity(0)
+        self.__front_left_motor.setVelocity(0)
+        self.__front_right_motor.setVelocity(0)
 
-    def __init__(self, speed=None):
-       self.__front_right_wheel_motor = smashBotMotor('front right wheel motor')
-       self.__rear_right_wheel_motor = smashBotMotor('rear right wheel motor')
-       self.__front_left_wheel_motor = smashBotMotor('front left wheel motor')
-       self.__rear_left_wheel_motor = smashBotMotor('rear left wheel motor')
-    
-    def goforward(self):
-        self.__front_right_wheel_motor.setVelocity(10)
-        self.__rear_right_wheel_motor.setVelocity(10)
-        self.__front_left_wheel_motor.setVelocity(10)
-        self.__rear_left_wheel_motor.setVelocity(10)
-    
-    def goback(self):
-        self.__front_right_wheel_motor.setVelocity(-10)
-        self.__rear_right_wheel_motor.setVelocity(-10)
-        self.__front_left_wheel_motor.setVelocity(-10)
-        self.__rear_left_wheel_motor.setVelocity(-10)
+        __target = [0.0, 0.0, 0.0]
+        __speed = [0.0, 0.0, 0.0, 0.0]
 
-    def turnright(self):
-        self.__front_right_wheel_motor.setVelocity(-10)
-        self.__rear_right_wheel_motor.setVelocity(-10)
-        self.__front_left_wheel_motor.setVelocity(10)
-        self.__rear_left_wheel_motor.setVelocity(10)
+    def kinematic(self):
+        self.__speed[0] = 1 / self.__WHEEL_RADIUS * (self.__target[0] - self.__target[1] - (LX + LY) * self.__target[2]);
+        self.__speed[1] = 1 / self.__WHEEL_RADIUS * (self.__target[0] + self.__target[1] + (LX + LY) * self.__target[2]);
+        self.__speed[2] = 1 / self.__WHEEL_RADIUS * (self.__target[0] + self.__target[1] - (LX + LY) * self.__target[2]);
+        self.__speed[3] = 1 / self.__WHEEL_RADIUS * (self.__target[0] - self.__target[1] + (LX + LY) * self.__target[2]);
 
-    def turnleft(self):
-        self.__front_right_wheel_motor.setVelocity(10)
-        self.__rear_right_wheel_motor.setVelocity(10)
-        self.__front_left_wheel_motor.setVelocity(-10)
-        self.__rear_left_wheel_motor.setVelocity(-10)
+    def stop(self):
+        self.__back_left_motor.setVelocity(0)
+        self.__back_right_motor.setVelocity(0)
+        self.__front_left_motor.setVelocity(0)
+        self.__front_right_motor.setVelocity(0)
 
+    def forward(self):
+        self.__back_left_motor.setVelocity(10.0)
+        self.__back_right_motor.setVelocity(10.0)
+        self.__front_left_motor.setVelocity(10.0)
+        self.__front_right_motor.setVelocity(10.0)
 
-class smashBot(Robot):
-    def __init__(self, speed=None):
-        super().__init__()
-        self.__motors=smashBotMotors()
+    def backward(self):
+        self.__back_left_motor.setVelocity(10.0)
+        self.__back_right_motor.setVelocity(10.0)
+        self.__front_left_motor.setVelocity(10.0)
+        self.__front_right_motor.setVelocity(10.0)
 
-    def goforward(self):        
-            self.__motors.goforward()
-    
-    def goback(self):        
-            self.__motors.goback()
+    def left_stationary(self):
+        self.__back_left_motor.setVelocity(-10.0)
+        self.__back_right_motor.setVelocity(10.0)
+        self.__front_left_motor.setVelocity(-10.0)
+        self.__front_right_motor.setVelocity(10.0)
 
+    def right_stationary(self):
+        self.__back_left_motor.setVelocity(10.0)
+        self.__back_right_motor.setVelocity(-10.0)
+        self.__front_left_motor.setVelocity(10.0)
+        self.__front_right_motor.setVelocity(-10.0)
 
-            
-    
+    def left_sideway(self):
+        self.__back_left_motor.setVelocity(-20.0)
+        self.__back_right_motor.setVelocity(20.0)
+        self.__front_left_motor.setVelocity(20.0)
+        self.__front_right_motor.setVelocity(-20.0)
 
-# create the Robot instance.
-robot = smashBot()
+    def run(self):
+        self.forward()
 
-# get the time step of the current world.
-timestep = int(robot.getBasicTimeStep())
+destroyer = Smash()
+timestep = int(destroyer.getBasicTimeStep())
 
-# You should insert a getDevice-like function in order to get the
-# instance of a device of the robot. Something like:
-#  motor = robot.getDevice('motorname')
-#  ds = robot.getDevice('dsname')
-#  ds.enable(timestep)
-
-# Main loop:
-# - perform simulation steps until Webots is stopping the controller
-while robot.step(timestep) != -1:
-
-    robot.goback()
-    # Read the sensors:
-    # Enter here functions to read sensor data, like:
-    #  val = ds.getValue()
-
-    # Process sensor data here.
-
-    # Enter here functions to send actuator commands, like:
-    #  motor.setPosition(10.0)
-    pass
-
+while destroyer.step(timestep) != -1:
+    destroyer.run()
