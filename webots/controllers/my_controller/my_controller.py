@@ -1,79 +1,102 @@
-from controller import Robot, Motor, PositionSensor
+from controller import Robot, Motor, DistanceSensor, GPS
 
-class Mouvement(Robot):
+class Init_Robot(Motor):
+
+    def __init__(self, name=None):
+        super().__init__(name)
+        self.setPosition(float('inf'))
+        self.setVelocity(0)
+        
+
+class Motors():
+    def __init__(self, speed=None):
+        self.__front_right_wheel_m = Init_Robot("front right wheel motor")
+        self.__front_left_wheel_m = Init_Robot("front left wheel motor")
+        self.__rear_right_wheel_m = Init_Robot("rear right wheel motor")
+        self.__rear_left_wheel_m = Init_Robot("rear left wheel motor")
+    
+    def go_forward(self, speed=5):
+        self.__front_right_wheel_m.setVelocity(speed)
+        self.__front_left_wheel_m.setVelocity(speed)
+        self.__rear_left_wheel_m.setVelocity(speed)
+        self.__rear_right_wheel_m.setVelocity(speed)
+
+    def go_backwards(self, speed=5):
+
+        self.__front_right_wheel_m.setVelocity(-1*speed)
+        self.__front_left_wheel_m.setVelocity(-1*speed)
+        self.__rear_left_wheel_m.setVelocity(-1*speed)
+        self.__rear_right_wheel_m.setVelocity(-1*speed)
+        print("Go Back method")
+
+    def go_left(self, speed=5):
+        self.__front_right_wheel_m.setVelocity(speed)
+        self.__front_left_wheel_m.setVelocity(0)
+        self.__rear_left_wheel_m.setVelocity(0)
+        self.__rear_right_wheel_m.setVelocity(speed)
+        print("Go Left method")
+
+    def go_right(self, speed=5):
+            self.__front_right_wheel_m.setVelocity(0)
+            self.__front_left_wheel_m.setVelocity(speed)
+            self.__rear_left_wheel_m.setVelocity(speed)
+            self.__rear_right_wheel_m.setVelocity(0)
+
+class Main(Robot):
+
+    def __init__(self, speed=None):
+        super().__init__()
+        self.__motors = Motors()
+        self.__sensors = Sensors()
+
+    def run(self, dir='forward', speed=10):
+        if dir=='backwards':
+            self.__motors.go_backwards()
+        elif dir=='forward':
+            self.__motors.go_forward()
+        elif dir=='right':
+            self.__motors.go_right()
+        elif dir=='left':
+            self.__motors.go_left()
+
+        self.__sensors.get_sensor()
+        self.__sensors.print_sensor_value()
+                
+
+
+class Init_Sensors(DistanceSensor):
     def __init__(self):
-        Robot.__init__(self)
+        super().__init__()
+        self.enable()
+        #self.getValue()
 
-        self.__back_left_motor = self.getDevice('back_left_wheel_joint')
-        self.__back_right_motor = self.getDevice('back_right_wheel_joint')
-        self.__front_left_motor = self.getDevice('front_left_wheel_joint')
-        self.__front_right_motor = self.getDevice('front_right_wheel_joint')
+class Sensors(Init_Sensors):
+    
+    def __init__(self):
+        self.__front_right_sensor = DistanceSensor("front right distance sensor")
+        self.__front_left_sensor = DistanceSensor("front left distance sensor")
+        self.__rear_right_sensor = DistanceSensor("rear right distance sensor")
+        self.__rear_left_sensor = DistanceSensor("rear left distance sensor")
 
-        self.__back_left_sensor = self.getDevice('back_left_wheel_joint_sensor')
-        self.__back_right_sensor = self.getDevice('back_right_wheel_joint_sensor')
-        self.__front_left_sensor = self.getDevice('front_left_wheel_joint_sensor')
-        self.__front_right_sensor = self.getDevice('front_right_wheel_joint_sensor')
+    def get_sensor(self):
+        return [self.__front_right_sensor.getValue(),
+        self.__front_left_sensor.getValue(),
+        self.__rear_right_sensor.getValue(),
+        self.__rear_left_sensor.getValue()]
 
-        self.__back_left_motor.setPosition(float('inf'))
-        self.__back_right_motor.setPosition(float('inf'))
-        self.__front_left_motor.setPosition(float('inf'))
-        self.__front_right_motor.setPosition(float('inf'))
+    def print_sensor_value(self):
+        print("sensor value :")
+        print(self.__front_left_sensor.getValue())
+    
+class GPS(GPS):
+    def __init__(self):
+        super().__init__('GPS')
 
-        self.__back_left_motor.setVelocity(0)
-        self.__back_right_motor.setVelocity(0)
-        self.__front_left_motor.setVelocity(0)
-        self.__front_right_motor.setVelocity(0)
 
-        __target = [0.0, 0.0, 0.0]
-        __speed = [0.0, 0.0, 0.0, 0.0]
+TA = Main()
 
-    def stop(self):
-        self.__back_left_motor.setVelocity(0)
-        self.__back_right_motor.setVelocity(0)
-        self.__front_left_motor.setVelocity(0)
-        self.__front_right_motor.setVelocity(0)
-
-    def forward(self):
-        self.__back_left_motor.setVelocity(10)
-        self.__back_right_motor.setVelocity(10)
-        self.__front_left_motor.setVelocity(10)
-        self.__front_right_motor.setVelocity(10)
-
-    def backward(self):
-        self.__back_left_motor.setVelocity(10)
-        self.__back_right_motor.setVelocity(10)
-        self.__front_left_motor.setVelocity(10)
-        self.__front_right_motor.setVelocity(10)
-
-    def turn_left(self):
-        self.__back_left_motor.setVelocity(-10)
-        self.__back_right_motor.setVelocity(10)
-        self.__front_left_motor.setVelocity(-10)
-        self.__front_right_motor.setVelocity(10)
-
-    def turnright(self):
-        self.__back_left_motor.setVelocity(10)
-        self.__back_right_motor.setVelocity(-10)
-        self.__front_left_motor.setVelocity(10)
-        self.__front_right_motor.setVelocity(-10)
-
-    def run(self):
-        for i in [0, 1, 2, 3]:
-            if i==1:
-                self.turnright()
-                self.forward()
-
-            if i==2:
-                self.turn_left()
-                self.backward()
-
-            if i==3:
-                self.turnright()
-                self.backward()
-                i = 0
-
-TA = Mouvement()
 timestep = int(TA.getBasicTimeStep())
 
 while TA.step(timestep) != -1:
-    TA.run()
+    TA.run('left')
+    pass
