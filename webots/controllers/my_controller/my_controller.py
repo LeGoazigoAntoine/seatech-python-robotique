@@ -98,5 +98,5 @@ TA = Main()
 timestep = int(TA.getBasicTimeStep())
 
 while TA.step(timestep) != -1:
-    TA.run('left')
+    TA.run('right')
     pass
