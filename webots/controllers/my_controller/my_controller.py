@@ -1,6 +1,6 @@
 from controller import Robot, Motor, PositionSensor
-
-class MyRobot(Robot):
+import time
+class Mouvement(Robot):
     def __init__(self):
         Robot.__init__(self)
 
@@ -58,10 +58,23 @@ class MyRobot(Robot):
         self.__front_right_motor.setVelocity(-10)
 
     def run(self):
-        self.forward()
+        for i in [0, 1, 2, 3]:
+            time.sleep(2)
+            if i==1:
+                self.turnright()
+                self.forward()
 
-R = MyRobot()
-timestep = int(R.getBasicTimeStep())
+            if i==2:
+                self.turn_left()
+                self.backward()
 
-while R.step(timestep) != -1:
-    R.run()
+            if i==3:
+                self.turnright()
+                self.backward()
+                i = 0
+
+TA = Mouvement()
+timestep = int(TA.getBasicTimeStep())
+
+while TA.step(timestep) != -1:
+    TA.run()
