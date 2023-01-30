@@ -1,5 +1,5 @@
 from controller import Robot, Motor, PositionSensor
-import time
+
 class Mouvement(Robot):
     def __init__(self):
         Robot.__init__(self)
@@ -59,7 +59,6 @@ class Mouvement(Robot):
 
     def run(self):
         for i in [0, 1, 2, 3]:
-            time.sleep(2)
             if i==1:
                 self.turnright()
                 self.forward()
